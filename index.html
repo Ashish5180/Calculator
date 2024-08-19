@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .btn {
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #f3f4f6;
+        }
+        .btn-operator {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-operator:hover {
+            background-color: #2563eb;
+        }
+        .btn-equals {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-equals:hover {
+            background-color: #059669;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-xs">
+        <div id="display" class="bg-gray-900 text-white p-4 rounded text-right text-4xl mb-6 overflow-hidden">0</div>
+        <div class="grid grid-cols-4 gap-3">
+            <button class="btn bg-gray-700 text-white text-2xl p-4 rounded" onclick="clearDisplay()">C</button>
+            <button class="btn bg-gray-700 text-white text-2xl p-4 rounded" onclick="appendCharacter('/')">/</button>
+            <button class="btn bg-gray-700 text-white text-2xl p-4 rounded" onclick="appendCharacter('*')">*</button>
+            <button class="btn bg-gray-700 text-white text-2xl p-4 rounded" onclick="deleteCharacter()">⌫</button>
+
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('7')">7</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('8')">8</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('9')">9</button>
+            <button class="btn btn-operator text-2xl p-4 rounded" onclick="appendCharacter('-')">-</button>
+
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('4')">4</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('5')">5</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('6')">6</button>
+            <button class="btn btn-operator text-2xl p-4 rounded" onclick="appendCharacter('+')">+</button>
+
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('1')">1</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('2')">2</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('3')">3</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('0')" style="grid-column: span 2;">0</button>
+            <button class="btn bg-gray-600 text-white text-2xl p-4 rounded" onclick="appendCharacter('.')">.</button>
+            <button class="btn btn-equals text-2xl p-4 rounded" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';
+        let isResultDisplayed = false;
+
+        function appendCharacter(character) {
+            if (isResultDisplayed) {
+                currentInput = '';
+                isResultDisplayed = false;
+            }
+            currentInput += character;
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            updateDisplay('0');
+        }
+
+        function deleteCharacter() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay(currentInput || '0');
+        }
+
+        function calculateResult() {
+            try {
+                currentInput = eval(currentInput).toString();
+                isResultDisplayed = true;
+                updateDisplay();
+            } catch {
+                updateDisplay('Error');
+            }
+        }
+
+        function updateDisplay(value) {
+            document.getElementById('display').textContent = value || currentInput;
+        }
+    </script>
+</body>
+</html>
